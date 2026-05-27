@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## How to upgrade
 
 ```bash
-docker pull ghcr.io/web-svc/crudapi:latest
+docker pull ghcr.io/websvcin/crudapi:latest
 docker compose up -d
 ```
 
