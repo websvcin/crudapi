@@ -109,8 +109,8 @@ a:hover { text-decoration: underline; }
       <a href="#features">Features</a>
       <a href="#install">Install</a>
       <a href="#faq">FAQ</a>
-      <a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a>
-      <a href="https://github.com/web-svc/crudapi/releases" target="_blank" class="nav-cta">Download ↓</a>
+      <a href="https://github.com/websvcin/crudapi" target="_blank">GitHub</a>
+      <a href="https://github.com/websvcin/crudapi/releases" target="_blank" class="nav-cta">Download ↓</a>
     </div>
   </div>
 </nav>
@@ -120,13 +120,13 @@ a:hover { text-decoration: underline; }
   <p class="tagline">Multi-tenant CRUD platform with built-in IAM, bulk import, and admin UI. Wire any MySQL database in seconds — no boilerplate code, no schema migrations, just configuration.</p>
   <div class="hero-ctas">
     <a href="#install" class="btn btn-primary">Get started →</a>
-    <a href="https://github.com/web-svc/crudapi" class="btn btn-secondary" target="_blank">⭐ Star on GitHub</a>
+    <a href="https://github.com/websvcin/crudapi" class="btn btn-secondary" target="_blank">⭐ Star on GitHub</a>
   </div>
 </section>
 
 <section class="demo-strip">
   <div class="demo-strip-inner">
-    <pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data ghcr.io/web-svc/crudapi:latest</pre>
+    <pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data ghcr.io/websvcin/crudapi:latest</pre>
   </div>
 </section>
 
@@ -172,16 +172,16 @@ a:hover { text-decoration: underline; }
         <pre>docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/web-svc/crudapi:latest</pre>
+  ghcr.io/websvcin/crudapi:latest</pre>
         <p>Open <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> — landing page loads. Login: <code>admin</code> / <code>admin@123</code>.</p>
       </div>
       <div id="tab-compose" class="install-content">
-        <pre>curl -O https://raw.githubusercontent.com/web-svc/crudapi/main/docker-compose.yml
+        <pre>curl -O https://raw.githubusercontent.com/websvcin/crudapi/main/docker-compose.yml
 docker compose up -d</pre>
-        <p>See <a href="https://github.com/web-svc/crudapi/blob/main/DEPLOY.md" target="_blank">DEPLOY.md</a> for production setup with reverse proxy and HTTPS.</p>
+        <p>See <a href="https://github.com/websvcin/crudapi/blob/main/DEPLOY.md" target="_blank">DEPLOY.md</a> for production setup with reverse proxy and HTTPS.</p>
       </div>
       <div id="tab-zip" class="install-content">
-        <pre>wget https://github.com/web-svc/crudapi/releases/latest/download/crudapi-latest.zip
+        <pre>wget https://github.com/websvcin/crudapi/releases/latest/download/crudapi-latest.zip
 unzip crudapi-latest.zip -d crudapi
 cd crudapi
 dotnet CrudApi.dll</pre>
@@ -198,9 +198,9 @@ dotnet CrudApi.dll</pre>
       <details class="faq-item"><summary>Is the source code open?</summary><p>Not at this time. The deployable binaries and Docker images are public and free under MIT license. Commercial support is available — contact us via the GitHub issues.</p></details>
       <details class="faq-item"><summary>Which databases are supported?</summary><p>MySQL today. SQL Server, PostgreSQL, and SQLite are on the roadmap. The admin UI honestly shows which engines are active in the version you're running.</p></details>
       <details class="faq-item"><summary>Can I run it on Plesk / shared hosting?</summary><p>Yes — download the ZIP release and follow standard ASP.NET Core hosting docs for your provider.</p></details>
-      <details class="faq-item"><summary>How do I update?</summary><p>If using Docker: <code>docker pull ghcr.io/web-svc/crudapi:latest &amp;&amp; docker compose up -d</code>. Always check the <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">CHANGELOG</a> for breaking changes first.</p></details>
+      <details class="faq-item"><summary>How do I update?</summary><p>If using Docker: <code>docker pull ghcr.io/websvcin/crudapi:latest &amp;&amp; docker compose up -d</code>. Always check the <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">CHANGELOG</a> for breaking changes first.</p></details>
       <details class="faq-item"><summary>Where is my data stored?</summary><p>In the <code>/app/Data</code> folder inside the container. <strong>Always mount this as a volume</strong> or you lose admin users / sessions / audit on every container restart.</p></details>
-      <details class="faq-item"><summary>Is it production-ready?</summary><p>Yes. v1.0.0 has been used in real deployments. Known limitations are documented in the <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">changelog</a>.</p></details>
+      <details class="faq-item"><summary>Is it production-ready?</summary><p>Yes. v1.0.0 has been used in real deployments. Known limitations are documented in the <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">changelog</a>.</p></details>
       <details class="faq-item"><summary>How do I contribute?</summary><p>File issues on GitHub. Source contributions aren't open yet, but feature requests, bug reports, and documentation improvements are welcome.</p></details>
     </div>
   </div>
@@ -209,17 +209,17 @@ dotnet CrudApi.dll</pre>
 <section class="cta-final">
   <h2>Ready to skip the boilerplate?</h2>
   <p>Get the latest release and run your first CRUD API in under 5 minutes.</p>
-  <a href="https://github.com/web-svc/crudapi/releases/latest" class="btn">Download v1.0.0 →</a>
+  <a href="https://github.com/websvcin/crudapi/releases/latest" class="btn">Download v1.0.0 →</a>
 </section>
 
 <footer class="footer">
   <p>
     MIT Licensed · Built with .NET 8 ·
-    <a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a> ·
-    <a href="https://github.com/web-svc/crudapi/issues" target="_blank">Issues</a> ·
-    <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+    <a href="https://github.com/websvcin/crudapi" target="_blank">GitHub</a> ·
+    <a href="https://github.com/websvcin/crudapi/issues" target="_blank">Issues</a> ·
+    <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
   </p>
-  <p style="margin-top: 8px;">© 2026 web-svc</p>
+  <p style="margin-top: 8px;">© 2026 websvcin</p>
 </footer>
 
 <script>
