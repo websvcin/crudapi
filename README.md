@@ -4,15 +4,15 @@
 
 **Multi-tenant CRUD API platform with built-in IAM, bulk import, admin UI, and SQLite browser.**
 
-[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue?logo=docker)](https://github.com/web-svc/crudapi/pkgs/container/crudapi)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue?logo=docker)](https://github.com/websvcin/crudapi/pkgs/container/crudapi)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
-[![Release](https://img.shields.io/github/v/release/web-svc/crudapi)](https://github.com/web-svc/crudapi/releases/latest)
+[![Release](https://img.shields.io/github/v/release/websvcin/crudapi)](https://github.com/websvcin/crudapi/releases/latest)
 
-[📖 Docs](https://web-svc.github.io/crudapi) ·
+[📖 Docs](https://websvcin.github.io/crudapi) ·
 [🚀 Quickstart](QUICKSTART.md) ·
-[🐳 Docker](https://github.com/web-svc/crudapi/pkgs/container/crudapi) ·
-[💬 Issues](https://github.com/web-svc/crudapi/issues)
+[🐳 Docker](https://github.com/websvcin/crudapi/pkgs/container/crudapi) ·
+[💬 Issues](https://github.com/websvcin/crudapi/issues)
 
 </div>
 
@@ -24,7 +24,7 @@
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/web-svc/crudapi:latest
+  ghcr.io/websvcin/crudapi:latest
 ```
 
 Open **http://localhost:8080** — landing page → admin console → register your first database → done.
@@ -54,7 +54,7 @@ Default admin login: `admin` / `admin@123` (change immediately).
 1. **Quickstart** → [QUICKSTART.md](QUICKSTART.md) — 5-minute walkthrough
 2. **Install** → [INSTALL.md](INSTALL.md) — Docker, manual, env vars
 3. **Deploy** → [DEPLOY.md](DEPLOY.md) — production guide
-4. **Docs site** → https://web-svc.github.io/crudapi
+4. **Docs site** → https://websvcin.github.io/crudapi
 
 ---
 
@@ -75,14 +75,14 @@ Once the app is running:
 
 ## 📥 Download
 
-- **Docker:** `docker pull ghcr.io/web-svc/crudapi:latest`
-- **ZIP (.NET binaries):** https://github.com/web-svc/crudapi/releases/latest
+- **Docker:** `docker pull ghcr.io/websvcin/crudapi:latest`
+- **ZIP (.NET binaries):** https://github.com/websvcin/crudapi/releases/latest
 - **Source code:** Private — contact us for licensing
 
 ---
 
 ## 📜 License
 
-[MIT](LICENSE) © web-svc
+[MIT](LICENSE) © websvcin
 
 Built with .NET 8, MySQL, SQLite, Docker.
