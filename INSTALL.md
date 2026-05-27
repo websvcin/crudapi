@@ -12,14 +12,14 @@ Three ways to install CrudApi. Pick what fits your environment.
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/web-svc/crudapi:latest
+  ghcr.io/websvcin/crudapi:latest
 ```
 
 ### With docker-compose (better for production)
 
 ```bash
-curl -O https://raw.githubusercontent.com/web-svc/crudapi/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/web-svc/crudapi/main/.env.example
+curl -O https://raw.githubusercontent.com/websvcin/crudapi/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/websvcin/crudapi/main/.env.example
 
 mv .env.example .env
 # Edit .env if needed
@@ -34,10 +34,10 @@ Visit **http://localhost:8080**.
 
 ## 📦 Option 2 — Pre-built ZIP
 
-Download the latest release: https://github.com/web-svc/crudapi/releases/latest
+Download the latest release: https://github.com/websvcin/crudapi/releases/latest
 
 ```bash
-wget https://github.com/web-svc/crudapi/releases/latest/download/crudapi-v1.0.0.zip
+wget https://github.com/websvcin/crudapi/releases/latest/download/crudapi-v1.0.0.zip
 unzip crudapi-v1.0.0.zip -d crudapi
 cd crudapi
 dotnet CrudApi.dll
@@ -104,4 +104,4 @@ curl http://localhost:8080/health
 | CORS errors in browser | Add your origin in Admin → Databases → CORS |
 | Behind a reverse proxy | See [DEPLOY.md](DEPLOY.md) — forwarded headers |
 
-Full docs: https://web-svc.github.io/crudapi
+Full docs: https://websvcin.github.io/crudapi
