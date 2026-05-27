@@ -4,15 +4,16 @@
 
 **Multi-tenant CRUD API platform with built-in IAM, bulk import, admin UI, and SQLite browser.**
 
-[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue?logo=docker)](https://github.com/websvcin/crudapi/pkgs/container/crudapi)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
-[![Release](https://img.shields.io/github/v/release/websvcin/crudapi)](https://github.com/websvcin/crudapi/releases/latest)
+https://img.shields.io/docker/pulls/websvcin/crudapi?logo=docker
+https://img.shields.io/badge/ghcr.io-available-blue?logo=github
+https://img.shields.io/badge/license-MIT-green
+https://img.shields.io/badge/.NET-8.0-purple
+https://img.shields.io/github/v/release/web-svc/crudapi
 
-[📖 Docs](https://websvcin.github.io/crudapi) ·
-[🚀 Quickstart](QUICKSTART.md) ·
-[🐳 Docker](https://github.com/websvcin/crudapi/pkgs/container/crudapi) ·
-[💬 Issues](https://github.com/websvcin/crudapi/issues)
+📖 https://web-svc.github.io/crudapi ·
+🚀 QUICKSTART.md ·
+🐳 https://hub.docker.com/r/websvcin/crudapi ·
+💬 https://github.com/web-svc/crudapi/issues
 
 </div>
 
@@ -24,7 +25,7 @@
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/websvcin/crudapi:latest
+  websvcin/crudapi:latest
 ```
 
 Open **http://localhost:8080** — landing page → admin console → register your first database → done.
