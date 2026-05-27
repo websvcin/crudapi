@@ -126,7 +126,7 @@ a:hover { text-decoration: underline; }
 
 <section class="demo-strip">
   <div class="demo-strip-inner">
-    <pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data ghcr.io/websvcin/crudapi:latest</pre>
+<pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data websvcin/crudapi:latest</pre>
   </div>
 </section>
 
@@ -169,12 +169,18 @@ a:hover { text-decoration: underline; }
         <button class="install-tab" onclick="showTab('zip', this)">📦 ZIP</button>
       </div>
       <div id="tab-docker" class="install-content active">
-        <pre>docker run -d -p 8080:80 \
+  <p style="margin-top:0;color:#cbd5e1;margin-bottom:14px;">Pick your registry — both publish the same images.</p>
+  <p style="color:#93c5fd;font-size:13px;margin-top:0;margin-bottom:6px;">🐳 Docker Hub (familiar):</p>
+  <pre>docker pull websvcin/crudapi:latest</pre>
+  <p style="color:#93c5fd;font-size:13px;margin-top:14px;margin-bottom:6px;">📦 GHCR (no rate limits):</p>
+  <pre>docker pull ghcr.io/web-svc/crudapi:latest</pre>
+  <p style="color:#93c5fd;font-size:13px;margin-top:14px;margin-bottom:6px;">🚀 Then run:</p>
+  <pre>docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/websvcin/crudapi:latest</pre>
-        <p>Open <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> — landing page loads. Login: <code>admin</code> / <code>admin@123</code>.</p>
-      </div>
+  websvcin/crudapi:latest</pre>
+  <p>Open <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> — landing page loads. Login: <code>admin</code> / <code>admin@123</code>.</p>
+</div>
       <div id="tab-compose" class="install-content">
         <pre>curl -O https://raw.githubusercontent.com/websvcin/crudapi/main/docker-compose.yml
 docker compose up -d</pre>
@@ -215,7 +221,8 @@ dotnet CrudApi.dll</pre>
 <footer class="footer">
   <p>
     MIT Licensed · Built with .NET 8 ·
-    <a href="https://github.com/websvcin/crudapi" target="_blank">GitHub</a> ·
+    <a href="https://hub.docker.com/r/websvcin/crudapi" target="_blank">Docker Hub</a>
+<a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a> ·
     <a href="https://github.com/websvcin/crudapi/issues" target="_blank">Issues</a> ·
     <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
   </p>
