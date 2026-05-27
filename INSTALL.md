@@ -25,5 +25,13 @@ mv .env.example .env
 # Run
 docker compose up -d
 
+## Option 2 — Pre-built ZIP
+Download the latest release: https://github.com/web-svc/crudapi/releases/latest
+
+wget https://github.com/web-svc/crudapi/releases/latest/download/crudapi-v1.0.0.zip
+unzip crudapi-v1.0.0.zip -d crudapi
+cd crudapi
+dotnet CrudApi.dll
+
 # View logs
 docker compose logs -f
