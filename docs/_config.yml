@@ -1,0 +1,5 @@
+title: CrudApi
+description: Multi-tenant CRUD API platform with built-in IAM, bulk import, and admin UI.
+url: https://web-svc.github.io
+baseurl: /crudapi
+theme: jekyll-theme-minimal

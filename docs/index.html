@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CrudApi — Multi-tenant CRUD API platform with built-in IAM</title>
+<meta name="description" content="Stop writing CRUD APIs. Configure them. Multi-tenant CRUD platform with built-in IAM, bulk import, and admin UI." />
+<style>
+:root {
+    --accent: #3b82f6;
+    --accent-h: #2563eb;
+    --accent-light: #eff6ff;
+    --bg: #fafafa;
+    --txt: #0f172a;
+    --txt-2: #475569;
+    --txt-mute: #94a3b8;
+    --border: #e5e7eb;
+    --code-bg: #0f172a;
+    --code-txt: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--txt); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+.nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--txt); }
+.nav-brand-emoji { font-size: 22px; }
+.nav-version { font-size: 11px; color: var(--txt-mute); margin-left: 6px; padding: 2px 6px; background: var(--border); border-radius: 4px; }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { color: var(--txt-2); font-size: 14px; font-weight: 500; }
+.nav-links a:hover { color: var(--accent); text-decoration: none; }
+.nav-cta { background: var(--accent); color: #fff !important; padding: 7px 16px; border-radius: 6px; font-size: 13px; }
+.nav-cta:hover { background: var(--accent-h); }
+
+@media (max-width: 768px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+.hero { padding: 90px 24px 70px; background: linear-gradient(135deg, #fafafa 0%, #eff6ff 100%); text-align: center; }
+.hero h1 { font-size: clamp(32px, 6vw, 56px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 18px; line-height: 1.1; }
+.hero h1 .accent { color: var(--accent); }
+.hero .tagline { font-size: clamp(17px, 2.5vw, 21px); color: var(--txt-2); max-width: 720px; margin: 0 auto 36px; }
+.hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none; transition: all .15s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-h); transform: translateY(-1px); text-decoration: none; }
+.btn-secondary { background: #fff; color: var(--txt); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+.demo-strip { background: var(--code-bg); padding: 18px 24px; }
+.demo-strip-inner { max-width: 900px; margin: 0 auto; }
+.demo-strip pre { color: var(--code-txt); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; overflow-x: auto; }
+
+.section { padding: 70px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section h2 { font-size: 32px; font-weight: 800; text-align: center; margin-bottom: 14px; letter-spacing: -.8px; }
+.section .sub { font-size: 16px; color: var(--txt-2); text-align: center; max-width: 640px; margin: 0 auto 50px; }
+
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+.feature { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 30px; transition: all .15s; }
+.feature:hover { border-color: var(--accent); box-shadow: 0 10px 30px rgba(59,130,246,.1); transform: translateY(-2px); }
+.feature-emoji { font-size: 36px; margin-bottom: 14px; }
+.feature h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.feature p { font-size: 14.5px; color: var(--txt-2); }
+
+.install { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #e2e8f0; padding: 80px 24px; }
+.install h2 { color: #fff; text-align: center; margin-bottom: 14px; font-size: 32px; }
+.install .sub { color: #94a3b8; text-align: center; max-width: 640px; margin: 0 auto 40px; }
+.install-card { max-width: 700px; margin: 0 auto; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 30px; }
+.install-tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 0; }
+.install-tab { padding: 10px 16px; cursor: pointer; color: #94a3b8; font-size: 14px; font-weight: 600; border: none; background: none; }
+.install-tab.active { color: #fff; border-bottom: 2px solid var(--accent); margin-bottom: -1px; }
+.install-content { display: none; }
+.install-content.active { display: block; }
+.install pre { background: rgba(0,0,0,.4); padding: 18px 22px; border-radius: 8px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; overflow-x: auto; line-height: 1.7; }
+.install p { color: #cbd5e1; margin-top: 16px; font-size: 14px; }
+.install p a { color: #93c5fd; }
+
+.workflow { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.workflow-step { text-align: center; padding: 24px; }
+.workflow-num { display: inline-block; width: 44px; height: 44px; line-height: 44px; background: var(--accent); color: #fff; border-radius: 50%; font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+.workflow h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.workflow p { font-size: 13.5px; color: var(--txt-2); }
+
+.faq { max-width: 700px; margin: 0 auto; }
+.faq-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+.faq-item summary { font-weight: 700; font-size: 15.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.faq-item summary::after { content: '+'; font-size: 24px; color: var(--accent); }
+.faq-item[open] summary::after { content: '−'; }
+.faq-item p { margin-top: 14px; color: var(--txt-2); font-size: 14.5px; }
+.faq-item code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+
+.cta-final { background: var(--accent); color: #fff; padding: 70px 24px; text-align: center; }
+.cta-final h2 { color: #fff; font-size: 32px; margin-bottom: 14px; }
+.cta-final p { color: #dbeafe; font-size: 17px; margin-bottom: 28px; }
+.cta-final .btn { background: #fff; color: var(--accent); }
+.cta-final .btn:hover { background: #f1f5f9; }
+
+.footer { background: #fff; border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--txt-mute); font-size: 13px; }
+.footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="nav-brand-emoji">🗃️</span> CrudApi <span class="nav-version">v1.0.0</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a>
+      <a href="https://github.com/web-svc/crudapi/releases" target="_blank" class="nav-cta">Download ↓</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Stop writing CRUD APIs.<br><span class="accent">Configure them.</span></h1>
+  <p class="tagline">Multi-tenant CRUD platform with built-in IAM, bulk import, and admin UI. Wire any MySQL database in seconds — no boilerplate code, no schema migrations, just configuration.</p>
+  <div class="hero-ctas">
+    <a href="#install" class="btn btn-primary">Get started →</a>
+    <a href="https://github.com/web-svc/crudapi" class="btn btn-secondary" target="_blank">⭐ Star on GitHub</a>
+  </div>
+</section>
+
+<section class="demo-strip">
+  <div class="demo-strip-inner">
+    <pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data ghcr.io/web-svc/crudapi:latest</pre>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <div class="section-inner">
+    <h2>Built for production. Designed for humans.</h2>
+    <p class="sub">No more boilerplate controllers, no more auth plumbing, no more permission spaghetti.</p>
+    <div class="features">
+      <div class="feature"><div class="feature-emoji">⚡</div><h3>Zero-config CRUD</h3><p>Register a database in the admin UI. Every table becomes a fully-functional REST endpoint with filtering, sorting, pagination, and joins.</p></div>
+      <div class="feature"><div class="feature-emoji">🔐</div><h3>Identity &amp; access built in</h3><p>Roles, permissions, row-level policies, API keys, Basic Auth, JWT — all wired and audited.</p></div>
+      <div class="feature"><div class="feature-emoji">📥</div><h3>Bulk import ready</h3><p>Stream million-row CSV files with foreign-key resolution, enum validation, and per-row error reports.</p></div>
+      <div class="feature"><div class="feature-emoji">🌐</div><h3>Multi-tenant by design</h3><p>Host any number of databases behind a single deployment. Per-database CORS, isolated data.</p></div>
+      <div class="feature"><div class="feature-emoji">🧰</div><h3>Admin UI included</h3><p>Visual database registration, role editor, permission matrix, audit log viewer, session manager.</p></div>
+      <div class="feature"><div class="feature-emoji">🐳</div><h3>Docker-ready</h3><p>Multi-arch image (amd64 + arm64), non-root user, ~200MB. Works on Raspberry Pi, AWS Graviton, Mac M1.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background: #fff;">
+  <div class="section-inner">
+    <h2>From zero to live API in 60 seconds</h2>
+    <p class="sub">No installs, no schemas, no SQL.</p>
+    <div class="workflow">
+      <div class="workflow-step"><div class="workflow-num">1</div><h3>Run with Docker</h3><p>One command: pulls image, starts server, persists data.</p></div>
+      <div class="workflow-step"><div class="workflow-num">2</div><h3>Register a DB</h3><p>Open the admin UI, enter MySQL credentials, test connection.</p></div>
+      <div class="workflow-step"><div class="workflow-num">3</div><h3>Create an API key</h3><p>Bind it to your database. Pick a role: Reader / Editor / custom.</p></div>
+      <div class="workflow-step"><div class="workflow-num">4</div><h3>Call your data</h3><p>curl with X-API-Key. Filter, sort, paginate, join — all out of the box.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="install" class="install">
+  <div class="section-inner">
+    <h2>Install</h2>
+    <p class="sub">Three ways. Pick what fits your stack.</p>
+    <div class="install-card">
+      <div class="install-tabs">
+        <button class="install-tab active" onclick="showTab('docker', this)">🐳 Docker</button>
+        <button class="install-tab" onclick="showTab('compose', this)">📋 docker-compose</button>
+        <button class="install-tab" onclick="showTab('zip', this)">📦 ZIP</button>
+      </div>
+      <div id="tab-docker" class="install-content active">
+        <pre>docker run -d -p 8080:80 \
+  -v $(pwd)/data:/app/Data \
+  --name crudapi \
+  ghcr.io/web-svc/crudapi:latest</pre>
+        <p>Open <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> — landing page loads. Login: <code>admin</code> / <code>admin@123</code>.</p>
+      </div>
+      <div id="tab-compose" class="install-content">
+        <pre>curl -O https://raw.githubusercontent.com/web-svc/crudapi/main/docker-compose.yml
+docker compose up -d</pre>
+        <p>See <a href="https://github.com/web-svc/crudapi/blob/main/DEPLOY.md" target="_blank">DEPLOY.md</a> for production setup with reverse proxy and HTTPS.</p>
+      </div>
+      <div id="tab-zip" class="install-content">
+        <pre>wget https://github.com/web-svc/crudapi/releases/latest/download/crudapi-latest.zip
+unzip crudapi-latest.zip -d crudapi
+cd crudapi
+dotnet CrudApi.dll</pre>
+        <p>Requires <a href="https://dotnet.microsoft.com/download/dotnet/8.0" target="_blank">.NET 8 runtime</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details class="faq-item"><summary>Is the source code open?</summary><p>Not at this time. The deployable binaries and Docker images are public and free under MIT license. Commercial support is available — contact us via the GitHub issues.</p></details>
+      <details class="faq-item"><summary>Which databases are supported?</summary><p>MySQL today. SQL Server, PostgreSQL, and SQLite are on the roadmap. The admin UI honestly shows which engines are active in the version you're running.</p></details>
+      <details class="faq-item"><summary>Can I run it on Plesk / shared hosting?</summary><p>Yes — download the ZIP release and follow standard ASP.NET Core hosting docs for your provider.</p></details>
+      <details class="faq-item"><summary>How do I update?</summary><p>If using Docker: <code>docker pull ghcr.io/web-svc/crudapi:latest &amp;&amp; docker compose up -d</code>. Always check the <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">CHANGELOG</a> for breaking changes first.</p></details>
+      <details class="faq-item"><summary>Where is my data stored?</summary><p>In the <code>/app/Data</code> folder inside the container. <strong>Always mount this as a volume</strong> or you lose admin users / sessions / audit on every container restart.</p></details>
+      <details class="faq-item"><summary>Is it production-ready?</summary><p>Yes. v1.0.0 has been used in real deployments. Known limitations are documented in the <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">changelog</a>.</p></details>
+      <details class="faq-item"><summary>How do I contribute?</summary><p>File issues on GitHub. Source contributions aren't open yet, but feature requests, bug reports, and documentation improvements are welcome.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <h2>Ready to skip the boilerplate?</h2>
+  <p>Get the latest release and run your first CRUD API in under 5 minutes.</p>
+  <a href="https://github.com/web-svc/crudapi/releases/latest" class="btn">Download v1.0.0 →</a>
+</section>
+
+<footer class="footer">
+  <p>
+    MIT Licensed · Built with .NET 8 ·
+    <a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a> ·
+    <a href="https://github.com/web-svc/crudapi/issues" target="_blank">Issues</a> ·
+    <a href="https://github.com/web-svc/crudapi/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+  </p>
+  <p style="margin-top: 8px;">© 2026 web-svc</p>
+</footer>
+
+<script>
+function showTab(id, btn) {
+    document.querySelectorAll('.install-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
