@@ -76,6 +76,7 @@ Once the app is running:
 ## 📥 Download
 
 - **Docker:** `docker pull ghcr.io/websvcin/crudapi:latest`
+- **Docker Hub:** `docker pull websvcin/crudapi:latest`
 - **ZIP (.NET binaries):** https://github.com/websvcin/crudapi/releases/latest
 - **Source code:** Private — contact us for licensing
 
