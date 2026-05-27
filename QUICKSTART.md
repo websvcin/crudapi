@@ -10,7 +10,7 @@ Get from zero to a live API in under 5 minutes.
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
   --name crudapi \
-  ghcr.io/web-svc/crudapi:latest
+  ghcr.io/websvcin/crudapi:latest
 ```
 
 Visit http://localhost:8080 — landing page should load.
