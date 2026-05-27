@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   crudapi:
-    image: ghcr.io/web-svc/crudapi:latest
+    image: ghcr.io/websvcin/crudapi:latest
     container_name: crudapi
     restart: unless-stopped
     ports:
@@ -17,7 +17,7 @@ services:
 
       # Branding (override in .env)
       - Docs__ProductName=${PRODUCT_NAME:-CrudApi}
-      - Docs__GithubUrl=${GITHUB_URL:-https://github.com/web-svc/crudapi}
+      - Docs__GithubUrl=${GITHUB_URL:-https://github.com/websvcin/crudapi}
       - Docs__SupportEmail=${SUPPORT_EMAIL:-}
 
       # Secrets (recommended via .env file, not here)
