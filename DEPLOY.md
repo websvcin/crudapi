@@ -27,7 +27,7 @@ version: "3.8"
 
 services:
   crudapi:
-    image: ghcr.io/web-svc/crudapi:v1.0.0   # Pin the version!
+    image: ghcr.io/websvcin/crudapi:v1.0.0   # Pin the version!
     container_name: crudapi
     restart: unless-stopped
     expose:
@@ -133,7 +133,7 @@ Integrate with Uptime Robot, Better Stack, Datadog, or Prometheus.
 ## 🔄 Updates
 
 ```bash
-docker pull ghcr.io/web-svc/crudapi:v1.0.1
+docker pull ghcr.io/websvcin/crudapi:v1.0.1
 docker compose up -d
 curl https://api.example.com/health
 ```
