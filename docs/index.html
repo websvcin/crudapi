@@ -104,7 +104,7 @@ a:hover { text-decoration: underline; }
 
 <nav class="nav">
   <div class="nav-inner">
-    <div class="nav-brand"><span class="nav-brand-emoji">🗃️</span> CrudApi <span class="nav-version">v1.0.0</span></div>
+    <div class="nav-brand"><span class="nav-brand-emoji">🗃️</span> CrudApi</div>
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#install">Install</a>
@@ -126,7 +126,7 @@ a:hover { text-decoration: underline; }
 
 <section class="demo-strip">
   <div class="demo-strip-inner">
-<pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data websvcin/crudapi:latest</pre>
+<pre>$ docker run -d -p 8080:80 -v $(pwd)/data:/app/Data -v $(pwd)/bulk-files:/app/bulk-files websvcin/crudapi:latest</pre>
   </div>
 </section>
 
@@ -140,6 +140,7 @@ a:hover { text-decoration: underline; }
       <div class="feature"><div class="feature-emoji">📥</div><h3>Bulk import ready</h3><p>Stream million-row CSV files with foreign-key resolution, enum validation, and per-row error reports.</p></div>
       <div class="feature"><div class="feature-emoji">🌐</div><h3>Multi-tenant by design</h3><p>Host any number of databases behind a single deployment. Per-database CORS, isolated data.</p></div>
       <div class="feature"><div class="feature-emoji">🧰</div><h3>Admin UI included</h3><p>Visual database registration, role editor, permission matrix, audit log viewer, session manager.</p></div>
+      <div class="feature"><div class="feature-emoji">🚦</div><h3>Rate limiting built in</h3><p>Per-credential, per-IP, and global limits, plus tenant-wide quotas on daily, monthly, or custom periods that auto-reset.</p></div>
       <div class="feature"><div class="feature-emoji">🐳</div><h3>Docker-ready</h3><p>Multi-arch image (amd64 + arm64), non-root user, ~200MB. Works on Raspberry Pi, AWS Graviton, Mac M1.</p></div>
     </div>
   </div>
@@ -172,14 +173,15 @@ a:hover { text-decoration: underline; }
   <p style="margin-top:0;color:#cbd5e1;margin-bottom:14px;">Pick your registry — both publish the same images.</p>
   <p style="color:#93c5fd;font-size:13px;margin-top:0;margin-bottom:6px;">🐳 Docker Hub (familiar):</p>
   <pre>docker pull websvcin/crudapi:latest</pre>
-  <p style="color:#93c5fd;font-size:13px;margin-top:14px;margin-bottom:6px;">📦 GHCR (no rate limits):</p>
-  <pre>docker pull ghcr.io/web-svc/crudapi:latest</pre>
+  <p style="color:#93c5fd;font-size:13px;margin-top:14px;margin-bottom:6px;">📦 GHCR (no Docker Hub anonymous-pull limits):</p>
+  <pre>docker pull ghcr.io/websvcin/crudapi:latest</pre>
   <p style="color:#93c5fd;font-size:13px;margin-top:14px;margin-bottom:6px;">🚀 Then run:</p>
   <pre>docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
+  -v $(pwd)/bulk-files:/app/bulk-files \
   --name crudapi \
   websvcin/crudapi:latest</pre>
-  <p>Open <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> — landing page loads. Login: <code>admin</code> / <code>admin@123</code>.</p>
+  <p>Open <a href="http://localhost:8080/setup" target="_blank">http://localhost:8080/setup</a> — there's no default login; this creates your first admin account.</p>
 </div>
       <div id="tab-compose" class="install-content">
         <pre>curl -O https://raw.githubusercontent.com/websvcin/crudapi/main/docker-compose.yml
@@ -206,7 +208,7 @@ dotnet CrudApi.dll</pre>
       <details class="faq-item"><summary>Can I run it on Plesk / shared hosting?</summary><p>Yes — download the ZIP release and follow standard ASP.NET Core hosting docs for your provider.</p></details>
       <details class="faq-item"><summary>How do I update?</summary><p>If using Docker: <code>docker pull ghcr.io/websvcin/crudapi:latest &amp;&amp; docker compose up -d</code>. Always check the <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">CHANGELOG</a> for breaking changes first.</p></details>
       <details class="faq-item"><summary>Where is my data stored?</summary><p>In the <code>/app/Data</code> folder inside the container. <strong>Always mount this as a volume</strong> or you lose admin users / sessions / audit on every container restart.</p></details>
-      <details class="faq-item"><summary>Is it production-ready?</summary><p>Yes. v1.0.0 has been used in real deployments. Known limitations are documented in the <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">changelog</a>.</p></details>
+      <details class="faq-item"><summary>Is it production-ready?</summary><p>Yes — it's been used in real deployments since the first release. Known limitations are documented in the <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">changelog</a>.</p></details>
       <details class="faq-item"><summary>How do I contribute?</summary><p>File issues on GitHub. Source contributions aren't open yet, but feature requests, bug reports, and documentation improvements are welcome.</p></details>
     </div>
   </div>
@@ -215,14 +217,14 @@ dotnet CrudApi.dll</pre>
 <section class="cta-final">
   <h2>Ready to skip the boilerplate?</h2>
   <p>Get the latest release and run your first CRUD API in under 5 minutes.</p>
-  <a href="https://github.com/websvcin/crudapi/releases/latest" class="btn">Download v1.0.0 →</a>
+  <a href="https://github.com/websvcin/crudapi/releases/latest" class="btn">Download latest release →</a>
 </section>
 
 <footer class="footer">
   <p>
     MIT Licensed · Built with .NET 8 ·
-    <a href="https://hub.docker.com/r/websvcin/crudapi" target="_blank">Docker Hub</a>
-<a href="https://github.com/web-svc/crudapi" target="_blank">GitHub</a> ·
+    <a href="https://hub.docker.com/r/websvcin/crudapi" target="_blank">Docker Hub</a> ·
+    <a href="https://github.com/websvcin/crudapi" target="_blank">GitHub</a> ·
     <a href="https://github.com/websvcin/crudapi/issues" target="_blank">Issues</a> ·
     <a href="https://github.com/websvcin/crudapi/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
   </p>

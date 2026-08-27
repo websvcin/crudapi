@@ -11,6 +11,7 @@ Three ways to install CrudApi. Pick what fits your environment.
 ```bash
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
+  -v $(pwd)/bulk-files:/app/bulk-files \
   --name crudapi \
   ghcr.io/websvcin/crudapi:latest
 ```
@@ -37,8 +38,8 @@ Visit **http://localhost:8080**.
 Download the latest release: https://github.com/websvcin/crudapi/releases/latest
 
 ```bash
-wget https://github.com/websvcin/crudapi/releases/latest/download/crudapi-v1.0.0.zip
-unzip crudapi-v1.0.0.zip -d crudapi
+wget https://github.com/websvcin/crudapi/releases/latest/download/crudapi-latest.zip
+unzip crudapi-latest.zip -d crudapi
 cd crudapi
 dotnet CrudApi.dll
 ```
@@ -58,14 +59,26 @@ Requires **.NET 8 runtime** installed on the host.
 
 ## ⚠️ Important: persistent storage
 
-CrudApi keeps these in `/app/Data`:
+CrudApi writes to **two** folders inside the container — both must be mounted as volumes, or
+you lose data the next time the container is recreated (a redeploy, a host reboot, an image
+update all discard the container's writable layer):
 
-- `system.db` — admin users, roles, permissions, sessions
-- `hangfire.db` — background job state
-- `audit-*.log` — security audit trail
-- `sqliteadmin-*.json` — viewer sessions
+- **`/app/Data`** — `system.db` (admin users, roles, permissions, every registered tenant and
+  database), the encryption keys protecting stored credentials, `hangfire.db` (background job
+  state), and audit logs.
+- **`/app/bulk-files`** — files uploaded through the bulk-import feature.
 
-**Always mount this folder as a volume** in Docker, or you lose your admin users on every container restart.
+If you're also running the rate-limiting admin (`/ratelimitadmin`, enabled by default), its own
+SQLite store defaults to a path *outside* `/app/Data` — point it at a subfolder of your already-
+mounted data volume with an environment variable, or its limits/quotas/usage history are lost on
+every container recreation too:
+
+```bash
+-e RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
+```
+
+**Always mount both folders as volumes** in Docker, or you lose your admin users, uploaded
+files, and rate-limit configuration on every container restart.
 
 ---
 
@@ -73,13 +86,11 @@ CrudApi keeps these in `/app/Data`:
 
 After install:
 
-1. Visit **http://localhost:8080**
-2. Click **Admin Console**
-3. Login: `admin` / `admin@123`
-4. **Immediately change the password** at `/admin/adminusers`
-5. Register your first database
-6. Create an API key
-7. Start calling the API
+1. Visit **http://localhost:8080/setup** — there is no default account; this wizard creates
+   your real first admin login.
+2. Log in and register your first database under **Admin → Databases**.
+3. Create an API key under **Admin → API Clients**.
+4. Start calling the API.
 
 See [QUICKSTART.md](QUICKSTART.md) for a guided walkthrough.
 
@@ -87,10 +98,13 @@ See [QUICKSTART.md](QUICKSTART.md) for a guided walkthrough.
 
 ## 🩺 Health check
 
+There's no dedicated `/health` endpoint — check that the app is responding at all:
+
 ```bash
-curl http://localhost:8080/health
-# {"status":"healthy"}
+curl -fsS http://localhost:8080/
 ```
+
+A `200` response means the container is up.
 
 ---
 
@@ -100,6 +114,8 @@ curl http://localhost:8080/health
 |---|---|
 | 404 on every URL | Container probably crashed. `docker logs crudapi` |
 | Admin DB resets on restart | You forgot the `-v $(pwd)/data:/app/Data` volume mount |
+| Uploaded files disappear after redeploy | You forgot the `-v $(pwd)/bulk-files:/app/bulk-files` volume mount |
+| Rate limits/quotas reset after redeploy | Set `RateLimitAdmin__DataDirectory` to a subfolder of your mounted data volume — see above |
 | 500 errors after first start | Check `appsettings.json` for malformed JSON |
 | CORS errors in browser | Add your origin in Admin → Databases → CORS |
 | Behind a reverse proxy | See [DEPLOY.md](DEPLOY.md) — forwarded headers |

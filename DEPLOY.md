@@ -27,19 +27,24 @@ version: "3.8"
 
 services:
   crudapi:
-    image: ghcr.io/websvcin/crudapi:v1.0.0   # Pin the version!
+    image: ghcr.io/websvcin/crudapi:v1.0.74   # Pin the version! Check the latest at
+                                               # https://github.com/websvcin/crudapi/releases
     container_name: crudapi
     restart: unless-stopped
     expose:
       - "80"
     volumes:
       - ./data:/app/Data
+      - ./bulk-files:/app/bulk-files
       - ./appsettings.Production.json:/app/appsettings.Production.json:ro
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
+      # The rate-limiting admin's own store defaults outside /app/Data — point it at a
+      # subfolder of the already-mounted data volume or its config/quotas reset on redeploy.
+      - RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:80/health"]
+      test: ["CMD", "curl", "-fsS", "http://localhost:80/"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -121,21 +126,22 @@ To restore:
 
 ## 🧪 Health monitoring
 
+There's no dedicated `/health` endpoint — monitor that the app responds at all:
+
 ```bash
-curl https://api.example.com/health
-# {"status":"healthy"}
+curl -fsS https://api.example.com/
 ```
 
-Integrate with Uptime Robot, Better Stack, Datadog, or Prometheus.
+Integrate with Uptime Robot, Better Stack, Datadog, or Prometheus by checking for a `200`.
 
 ---
 
 ## 🔄 Updates
 
 ```bash
-docker pull ghcr.io/websvcin/crudapi:v1.0.1
+docker pull ghcr.io/websvcin/crudapi:latest   # or pin an exact tag — see Releases
 docker compose up -d
-curl https://api.example.com/health
+curl -fsS https://api.example.com/
 ```
 
 Always read [CHANGELOG.md](CHANGELOG.md) before upgrading.
@@ -144,8 +150,10 @@ Always read [CHANGELOG.md](CHANGELOG.md) before upgrading.
 
 ## 🆘 Roll back
 
+Edit the image tag in `docker-compose.yml` back to your last known-good version (see
+[Releases](https://github.com/websvcin/crudapi/releases) for the list), then:
+
 ```bash
-sed -i 's/v1.0.1/v1.0.0/' docker-compose.yml
 docker compose up -d
 ```
 

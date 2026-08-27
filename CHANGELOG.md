@@ -11,6 +11,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Since 1.0.0 (current: v1.0.74)
+
+Builds auto-increment as `1.0.x` on every push — this section rolls up the features added since
+the first public release rather than listing every individual build.
+
+### Added
+- **Rate limiting** (`/ratelimitadmin`): per-credential, per-IP, and global-per-database traffic
+  limits, plus tenant-wide aggregate quotas on daily, monthly, or custom periods with auto-reset.
+  Configurable per database from its own admin UI, with live usage tracking and a Global Admin /
+  Tenant Admin view — separate login, with a one-click signed handoff from the main admin UI.
+- **Self-service Tenant Portal** (`/tenant/login`): a tenant admin can manage their own
+  databases and API keys without needing Global Admin access.
+- **Provisioning keys**: scoped, revocable keys for automating database/tenant setup.
+- **Cross-app signed handoff**: one-click, no-re-login navigation between the main admin UI,
+  the rate-limiting admin, and the SQLite browser.
+- **First-run setup wizard** (`/setup`): replaces the old seeded default credential — a fresh
+  install now has no default login; the wizard creates the real first admin account.
+- Editable per-database tenant ownership from the admin UI.
+
+### Fixed
+- Cross-app links (Rate Limits, SQLite browser) now open in a new tab instead of navigating
+  away from the admin console.
+
+### Removed
+- The seeded `admin` / `admin@123` default credential — see "First-run setup wizard" above.
+
+---
+
 ## [1.0.0] — 2026-05-27
 
 ### 🎉 First public release

@@ -9,6 +9,7 @@ Get from zero to a live API in under 5 minutes.
 ```bash
 docker run -d -p 8080:80 \
   -v $(pwd)/data:/app/Data \
+  -v $(pwd)/bulk-files:/app/bulk-files \
   --name crudapi \
   ghcr.io/websvcin/crudapi:latest
 ```
@@ -17,14 +18,11 @@ Visit http://localhost:8080 — landing page should load.
 
 ---
 
-## Step 2 — Login to Admin (30 sec)
+## Step 2 — Create your admin account (30 sec)
 
-Click **"Admin Console"** on the landing page.
-
-- Username: `admin`
-- Password: `admin@123`
-
-**Immediately change** the password at `/admin/adminusers`.
+Click **"Admin Console"** on the landing page — you'll land on **`/setup`**. There's no default
+login; this wizard creates the real first admin account, so pick your own username and password
+here.
 
 ---
 
@@ -91,7 +89,9 @@ You now have:
 - ✅ Authentication via API key
 - ✅ Filtering, sorting, pagination
 - ✅ Admin UI for managing it all
+- ✅ Rate limiting already guarding your endpoints (tune it at `/ratelimitadmin`)
 
 **Next steps:**
 - Browse http://localhost:8080/help for all features
+- Tune rate limits or set a tenant quota at `/ratelimitadmin`
 - Set up production deployment with [DEPLOY.md](DEPLOY.md)
