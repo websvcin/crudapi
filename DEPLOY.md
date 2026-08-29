@@ -27,7 +27,7 @@ version: "3.8"
 
 services:
   crudapi:
-    image: ghcr.io/websvcin/crudapi:v1.0.74   # Pin the version! Check the latest at
+    image: ghcr.io/websvcin/crudapi:v1.0.78   # Pin the version! Check the latest at
                                                # https://github.com/websvcin/crudapi/releases
     container_name: crudapi
     restart: unless-stopped
@@ -43,6 +43,8 @@ services:
       # The rate-limiting admin's own store defaults outside /app/Data — point it at a
       # subfolder of the already-mounted data volume or its config/quotas reset on redeploy.
       - RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
+      # Same reasoning for the Config Editor's session store.
+      - ConfigVisualizer__DataDirectory=/app/Data/ConfigVisualizer
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:80/"]
       interval: 30s

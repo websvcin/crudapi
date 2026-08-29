@@ -72,6 +72,7 @@ Once the app is running:
 | `http://localhost:8080/tenant/login` | Self-service Tenant Portal — a tenant admin manages their own databases/keys |
 | `http://localhost:8080/ratelimitadmin` | Rate-limit admin — per-database, per-IP, and tenant quota controls |
 | `http://localhost:8080/sqliteadmin` | SQLite browser (separate login) |
+| `http://localhost:8080/configvisualizer` | Config Editor — tree/field editor for a database's generated dashboard config, reached from the admin console |
 | `http://localhost:8080/docs` | Swagger / OpenAPI spec |
 | `http://localhost:8080/api/v1/{db}/crud/{table}` | The actual CRUD API |
 

@@ -68,13 +68,14 @@ update all discard the container's writable layer):
   state), and audit logs.
 - **`/app/bulk-files`** — files uploaded through the bulk-import feature.
 
-If you're also running the rate-limiting admin (`/ratelimitadmin`, enabled by default), its own
-SQLite store defaults to a path *outside* `/app/Data` — point it at a subfolder of your already-
-mounted data volume with an environment variable, or its limits/quotas/usage history are lost on
-every container recreation too:
+If you're also running the rate-limiting admin (`/ratelimitadmin`, enabled by default) or the
+config editor (`/configvisualizer`, enabled by default), each has its own store that defaults to a
+path *outside* `/app/Data` — point them at a subfolder of your already-mounted data volume with an
+environment variable, or their state is lost on every container recreation too:
 
 ```bash
 -e RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
+-e ConfigVisualizer__DataDirectory=/app/Data/ConfigVisualizer
 ```
 
 **Always mount both folders as volumes** in Docker, or you lose your admin users, uploaded
@@ -116,6 +117,7 @@ A `200` response means the container is up.
 | Admin DB resets on restart | You forgot the `-v $(pwd)/data:/app/Data` volume mount |
 | Uploaded files disappear after redeploy | You forgot the `-v $(pwd)/bulk-files:/app/bulk-files` volume mount |
 | Rate limits/quotas reset after redeploy | Set `RateLimitAdmin__DataDirectory` to a subfolder of your mounted data volume — see above |
+| Config editor logs you out after redeploy | Set `ConfigVisualizer__DataDirectory` to a subfolder of your mounted data volume — see above |
 | 500 errors after first start | Check `appsettings.json` for malformed JSON |
 | CORS errors in browser | Add your origin in Admin → Databases → CORS |
 | Behind a reverse proxy | See [DEPLOY.md](DEPLOY.md) — forwarded headers |

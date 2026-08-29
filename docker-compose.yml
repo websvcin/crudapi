@@ -21,6 +21,9 @@ services:
       # subfolder of the mounted data volume or its config/quotas reset on every redeploy.
       - RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
 
+      # Same reasoning for the Config Editor's session store.
+      - ConfigVisualizer__DataDirectory=/app/Data/ConfigVisualizer
+
       # Branding (override in .env)
       - Docs__ProductName=${PRODUCT_NAME:-CrudApi}
       - Docs__GithubUrl=${GITHUB_URL:-https://github.com/websvcin/crudapi}
