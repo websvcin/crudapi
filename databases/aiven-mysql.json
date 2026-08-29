@@ -5217,8 +5217,8 @@
             },
             {
               "name": "client_id",
-              "label": "Client Id",
-              "placeholder": "",
+              "label": "Client Identifier",
+              "placeholder": "e.g. abc123",
               "type": "text",
               "required": true,
               "options": [],
@@ -5450,8 +5450,8 @@
           "createFields": [
             {
               "name": "client_id",
-              "label": "Client Id",
-              "placeholder": "",
+              "label": "Client Identifier",
+              "placeholder": "e.g. abc123",
               "type": "text",
               "required": true,
               "options": [],
@@ -5683,8 +5683,8 @@
           "editFields": [
             {
               "name": "client_id",
-              "label": "Client Id",
-              "placeholder": "",
+              "label": "Client Identifier",
+              "placeholder": "e.g. abc123",
               "type": "text",
               "required": true,
               "options": [],
@@ -5935,7 +5935,8 @@
             "icon": "FaAppStore"
           },
           "accessRoles": [
-            "root"
+            "root",
+            "hr"
           ],
           "limit": 20,
           "orderBy": [
