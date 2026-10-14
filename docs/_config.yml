@@ -1,5 +1,49 @@
 title: CrudApi
-description: Multi-tenant CRUD API platform with built-in IAM, bulk import, and admin UI.
-url: https://websvcin.github.io
-baseurl: /crudapi
-theme: jekyll-theme-minimal
+description: Turn your databases into secure, multi-tenant CRUD APIs — no backend code to write.
+baseurl: "/crudapi"
+url: "https://websvcin.github.io"
+
+remote_theme: just-the-docs/just-the-docs
+color_scheme: light
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: false
+
+nav_sort: case_insensitive
+heading_anchors: true
+
+aux_links:
+  "GitHub":
+    - "https://github.com/websvcin/crudapi"
+
+aux_links_new_tab: true
+
+footer_content: "Copyright &copy; CrudApi. Distributed under an open license."
+
+callouts:
+  warning:
+    title: Warning
+    color: red
+  note:
+    title: Note
+    color: blue
+  known-issue:
+    title: Known limitation
+    color: yellow
+
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
