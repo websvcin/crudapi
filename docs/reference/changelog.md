@@ -14,6 +14,26 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **Admin console rewrite** (`WebSvc.CrudAdmin` 2.0.0): the separate Roles, Policies, Users, Provisioning
+  Keys, Issuance Keys, JWT Sessions, Tenant Sessions and API Clients pages are replaced by a unified
+  [Access model](../admin-console/access-model.html); a two-tier [Developer API](../admin-console/developer-api.html)
+  key system (platform- and workspace-scoped) replaces ad hoc key handling; [LoginLink](../features/loginlink-integration.html)
+  adds tenant self-service login links as an alternative to password/JWT login; [Managed databases](../features/managed-databases.html)
+  adds policy-gated, script-driven database creation; the old Backup and Migrate-to-MySQL pages are
+  replaced by a single [Storage & data](../admin-console/storage-databases.html) page. Breaking: those
+  old page routes are gone — see [Admin console](../admin-console/index.html) for where each capability
+  moved to.
+- **Unregister a tenant database** (`WebSvc.CrudAdmin` 2.0.1): a database can now be removed from a
+  workspace's own registry — CORS origins, row policies, rate limits and cached config state go with it —
+  without the underlying database ever being touched. See
+  [Tenant console → Databases](../tenant-console/databases.html#actions-menu).
+- **Config Visualizer tenant-scoped sessions** (`WebSvc.ConfigVisualizer` 1.1.0): a signed handoff can now
+  mint a session locked to one tenant and database, not only platform-admin. The scope is checked on every
+  request, not just at login, so one tenant can never reach another's config editor — not even by editing
+  the URL directly. See [Features → Generate Config & dashboards](../features/generate-config-dashboards.html#the-config-visualizer).
+- **SqliteAdmin per-file read-only protection** (`WebSvc.SqliteAdmin` 1.2.0): specific database files
+  (by name or full path) can be marked browse/query/export-only, independent of making the whole SQLite
+  browser read-only.
 - **Generate Config** now reports publishing status honestly — a failed GitHub push no longer looks
   identical to a full success — and gained an admin-triggered route plus a configurable path. See
   [Features → Generate Config & dashboards](../features/generate-config-dashboards.html).

@@ -9,9 +9,11 @@ Three ways to install CrudApi. Pick what fits your environment.
 ### Single command
 
 ```bash
+mkdir -p $(pwd)/data
+chown -R 1000:1000 $(pwd)/data   # the image runs as non-root uid 1000
+
 docker run -d -p 8080:80 \
-  -v $(pwd)/data:/app/Data \
-  -v $(pwd)/bulk-files:/app/bulk-files \
+  -v $(pwd)/data:/app/App_Data \
   --name crudapi \
   ghcr.io/websvcin/crudapi:latest
 ```
@@ -59,27 +61,22 @@ Requires **.NET 8 runtime** installed on the host.
 
 ## ⚠️ Important: persistent storage
 
-CrudApi writes to **two** folders inside the container — both must be mounted as volumes, or
-you lose data the next time the container is recreated (a redeploy, a host reboot, an image
-update all discard the container's writable layer):
+CrudApi writes everything it needs to keep — the admin registry (every tenant, database, and
+credential), the Data Protection keys that encrypt stored passwords/connection strings, setup
+state, background jobs, rate-limit and Config Editor data, and uploaded files — to a single
+**`/app/App_Data`** folder inside the container. That folder **must** be mounted as a volume, or
+you lose everything the next time the container is recreated (a redeploy, a host reboot, an image
+update all discard the container's writable layer).
 
-- **`/app/Data`** — `system.db` (admin users, roles, permissions, every registered tenant and
-  database), the encryption keys protecting stored credentials, `hangfire.db` (background job
-  state), and audit logs.
-- **`/app/bulk-files`** — files uploaded through the bulk-import feature.
+No shell access on your hosting panel (so you can't `chown`)? Open the host directory to
+world-write instead (`rwx` for "Other") so the non-root container user can still write to it.
 
-If you're also running the rate-limiting admin (`/ratelimitadmin`, enabled by default) or the
-config editor (`/configvisualizer`, enabled by default), each has its own store that defaults to a
-path *outside* `/app/Data` — point them at a subfolder of your already-mounted data volume with an
-environment variable, or their state is lost on every container recreation too:
-
-```bash
--e RateLimitAdmin__DataDirectory=/app/Data/RateLimitAdmin
--e ConfigVisualizer__DataDirectory=/app/Data/ConfigVisualizer
-```
-
-**Always mount both folders as volumes** in Docker, or you lose your admin users, uploaded
-files, and rate-limit configuration on every container restart.
+**Upgrading an older container** that still mounts the separate `/app/Data` and `/app/bulk-files`
+paths from an earlier release? Leave those mounts as they are — a mounted folder can't be renamed,
+so the app keeps using it right where it is, and says so in the startup log. To consolidate onto
+the single `App_Data` folder, stop the container, move the old `bulk-files` contents into a
+`bulk-files` subfolder inside your data directory, then mount that same host directory at
+`/app/App_Data` instead.
 
 ---
 
@@ -89,9 +86,11 @@ After install:
 
 1. Visit **http://localhost:8080/setup** — there is no default account; this wizard creates
    your real first admin login.
-2. Log in and register your first database under **Admin → Databases**.
-3. Create an API key under **Admin → API Clients**.
-4. Start calling the API.
+2. Sign in to `/admin`, create your first **tenant** under **Tenants**, and copy its console key.
+3. Go to `/{your-tenant-slug}/login`, sign in with the console key, and register your first
+   database under **Databases** in the tenant workspace.
+4. Create an API key under **Keys** in the same tenant workspace.
+5. Start calling the API at `/api/v1/{tenant}/{database}/crud/{table}`.
 
 See [QUICKSTART.md](QUICKSTART.md) for a guided walkthrough.
 
@@ -114,12 +113,9 @@ A `200` response means the container is up.
 | Symptom | Fix |
 |---|---|
 | 404 on every URL | Container probably crashed. `docker logs crudapi` |
-| Admin DB resets on restart | You forgot the `-v $(pwd)/data:/app/Data` volume mount |
-| Uploaded files disappear after redeploy | You forgot the `-v $(pwd)/bulk-files:/app/bulk-files` volume mount |
-| Rate limits/quotas reset after redeploy | Set `RateLimitAdmin__DataDirectory` to a subfolder of your mounted data volume — see above |
-| Config editor logs you out after redeploy | Set `ConfigVisualizer__DataDirectory` to a subfolder of your mounted data volume — see above |
+| Admin data resets on restart | You forgot the `-v $(pwd)/data:/app/App_Data` volume mount, or the mounted directory isn't writable by uid 1000 |
 | 500 errors after first start | Check `appsettings.json` for malformed JSON |
-| CORS errors in browser | Add your origin in Admin → Databases → CORS |
+| CORS errors in browser | Add your origin from a database's own **Web origins · CORS** action in the tenant workspace |
 | Behind a reverse proxy | See [DEPLOY.md](DEPLOY.md) — forwarded headers |
 
 Full docs: https://websvcin.github.io/crudapi

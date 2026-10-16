@@ -23,8 +23,7 @@
 
 ```bash
 docker run -d -p 8080:80 \
-  -v $(pwd)/data:/app/Data \
-  -v $(pwd)/bulk-files:/app/bulk-files \
+  -v $(pwd)/data:/app/App_Data \
   --name crudapi \
   websvcin/crudapi:latest
 ```
@@ -74,7 +73,7 @@ Once the app is running:
 | `http://localhost:8080/sqliteadmin` | SQLite browser (separate login) |
 | `http://localhost:8080/configvisualizer` | Config Editor — tree/field editor for a database's generated dashboard config, reached from the admin console |
 | `http://localhost:8080/docs` | Swagger / OpenAPI spec |
-| `http://localhost:8080/api/v1/{db}/crud/{table}` | The actual CRUD API |
+| `http://localhost:8080/api/v1/{tenant}/{db}/crud/{table}` | The actual CRUD API |
 
 ---
 

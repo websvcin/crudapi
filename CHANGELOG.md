@@ -11,12 +11,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Since 1.0.0 (current: v1.0.78)
+## Since 1.0.0 (current: v1.0.97)
 
 Builds auto-increment as `1.0.x` on every push — this section rolls up the features added since
 the first public release rather than listing every individual build.
 
 ### Added
+- **Admin console rewrite** (`WebSvc.CrudAdmin` 2.0.0): the separate Roles, Policies, Users,
+  Provisioning Keys, Issuance Keys, JWT Sessions, Tenant Sessions and API Clients pages are
+  replaced by a unified **Access model**; a two-tier **Developer API** key system
+  (platform- and workspace-scoped) replaces ad hoc key handling; **LoginLink** adds tenant
+  self-service login links as an alternative to password/JWT login; **Managed databases** adds
+  policy-gated, script-driven database creation; the old Backup and Migrate-to-MySQL pages are
+  replaced by a single **Storage & data** page, which also gained a live, no-restart switch onto a
+  freshly-provisioned MySQL store during first-run setup. **Breaking**: the old page routes above
+  are gone — see the [docs site](https://websvcin.github.io/crudapi/admin-console/) for where each
+  capability moved to.
+- **Unregister a tenant database** (`WebSvc.CrudAdmin` 2.0.1): a database can now be removed from
+  a workspace's own registry — CORS origins, row policies, rate limits and cached config state go
+  with it — without the underlying database ever being touched.
+- **Config Visualizer tenant-scoped sessions** (`WebSvc.ConfigVisualizer` 1.1.0): a signed handoff
+  can now mint a session locked to one tenant and database, not only platform-admin, enforced on
+  every request — not just at login — so one tenant can never reach another's config editor.
+- **SqliteAdmin per-file read-only protection** (`WebSvc.SqliteAdmin` 1.2.0): specific database
+  files can be marked browse/query/export-only, independent of making the whole browser read-only.
+- **Runtime data consolidated** into a single `App_Data` folder — previously scattered across
+  separate `Data/`, `RateLimitData/`, `ConfigVisualizerData/`, and `bulk-files/` locations, each
+  needing its own Docker volume.
 - **Visual config editor** (`/configvisualizer`): tree/field/inspector editor over a database's
   AI-generated dashboard config — edit field labels, types, and relation pickers (including
   fixing relation label fields the generator leaves empty), preview the JSON live, and publish as
@@ -83,7 +104,8 @@ the first public release rather than listing every individual build.
 - MySQL only for now (other dialects on roadmap)
 - MFA settings are placeholder (no provider yet)
 - Notify URL change requires restart
-- GitHub/AI tokens stored plaintext in DB (documented; use OS encryption)
+- GitHub/AI tokens stored plaintext in DB — **resolved**: stored encrypted at rest via Data
+  Protection as of a later build, decrypted only in memory when read
 
 ---
 
@@ -94,4 +116,4 @@ docker pull ghcr.io/websvcin/crudapi:latest
 docker compose up -d
 ```
 
-Always back up `Data/` before upgrading.
+Always back up `App_Data/` before upgrading.

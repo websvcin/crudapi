@@ -78,7 +78,7 @@ needs your attention):
   recognised** (removable directly from this table, with confirmation). Each row shows the file/folder
   name and size, which part of the product owns it, why it exists, what happens if it's lost, and whether
   it belongs in your backup. A separate "Kept next to the program, not in this folder" group lists anything
-  a bundled package insists on placing elsewhere (e.g. the licensing package's own file).
+  a bundled package insists on placing elsewhere, if any package currently does.
 
 ## Backing this up in practice
 

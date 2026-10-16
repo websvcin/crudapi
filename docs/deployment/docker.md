@@ -84,8 +84,7 @@ from a file manager alone.
 | `configvisualizer/` | Config Visualizer session state. |
 | `bulk-files/` | Uploaded files from bulk import. |
 
-The whole folder can be relocated with `Storage__DataRoot`. The one file deliberately kept **outside** it
-is `license.db`, which the licensing package keeps beside the app itself.
+The whole folder can be relocated with `Storage__DataRoot`.
 
 ## First run
 

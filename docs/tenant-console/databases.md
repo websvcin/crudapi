@@ -39,7 +39,7 @@ Each row: name/key, engine and host, connection status, configuration status, an
 | **Run a script** | Opens the script runner — see [Features → Run scripts](../features/run-scripts.html) for the full dry-run/confirm/execute flow, including the "execute here" credential picker. |
 | **Row policy** | Add or edit a row-level restriction for a role on this database — see [Features → Row policies](../features/row-policies.html). Can optionally be copied to every other database in the workspace whose tables/columns match. |
 | **Edit** | Change the stored connection details. |
-| **Remove** | Unregister the database from this workspace (the underlying database itself is untouched). |
+| **Unregister** | Removes the database from this workspace's own registry only — its CORS origins, row policies, rate limits and cached config state go with it, but the underlying database itself (and its data) is never touched. The platform didn't create it and has no way to drop it. You can register it again later with the same connection details. |
 
 ## Row policies
 
