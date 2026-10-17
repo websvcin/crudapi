@@ -124,3 +124,8 @@ and reliability implications of that dependency.
 - **Issuer** — your LoginLink deployment's address, set once here so two independent features — new-tenant
   provisioning (on the [Tenants](tenants.html) page) and admin sign-in (on the
   [Admin Users](admins.html) page) — can never silently point at two different servers.
+- **CrudApi's own API identifier** — what an app (like a tenant's own separate product, calling the data
+  API as its users) asks LoginLink for a token addressed to, instead of needing to be the one specific app
+  each workspace already trusts. Defaults sensibly to this host's own public address if left unset;
+  editable, and changing it re-registers the new value in every workspace already connected to LoginLink.
+  Full detail: [Features → LoginLink integration](../features/loginlink-integration.html#crudapi-as-a-registered-api).

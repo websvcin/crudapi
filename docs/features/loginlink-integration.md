@@ -36,11 +36,17 @@ plain passwords.
 
 A LoginLink connection resolves to either a specific **organisation slug** (a sub-path under your LoginLink
 server, e.g. `https://loginlink.example.com/acme`) or the **platform root** organisation itself (no
-sub-path at all). Both are completely valid — "connected to the platform root" is not an error state, just
-a description of *which* organisation. If you see the exact phrase *"This workspace is connected directly
-to the platform's own LoginLink organisation, with no separate slug"*, that's this, correctly reported —
-start over and reconnect with an explicit slug if you want a tenant on its own dedicated organisation
-instead of the platform's root one.
+sub-path at all). For a tenant workspace's own team/data sign-in (points #2/#3), only an organisation slug
+is allowed now — connecting to the platform root is refused with a clear message, since the root is meant
+for your own platform team (point #1) and for auto-provisioning's own bookkeeping, not for a real tenant's
+people. If a tenant workspace somehow ended up on the root organisation before this restriction existed,
+it keeps working; it just can't be *reconnected* there going forward.
+
+Relatedly, **one LoginLink organisation can only ever serve one tenant workspace.** Connecting an
+organisation another workspace already uses is refused, naming that workspace. This is what makes it safe
+for CrudApi to resolve a workspace purely from which organisation a token names (see
+[CrudApi as a registered API](#crudapi-as-a-registered-api) below) — without it, a token addressed to
+CrudApi itself couldn't be traced back to exactly one workspace.
 
 ## Auto-provisioning at tenant creation
 
@@ -62,6 +68,33 @@ or [Settings](../tenant-console/settings.html) tab. Either path needs:
    (it can't be derived from a credential, so it must be typed correctly).
 2. A **management credential** — created in that organisation's own API Access page, with **Manage apps**
    ticked.
+
+## CrudApi as a registered API
+
+Point #3's original design had a real limit: the data API only ever trusted tokens addressed to **one**
+specific LoginLink app per workspace (the one CrudAdmin itself registered, or a separate "data app" created
+from Keys) — so if your tenant's end-users actually sign in through *their own* app (a separate product
+you've built, not CrudAdmin's), its tokens were never accepted, because they were never addressed to that
+one trusted app.
+
+CrudApi now also registers itself in LoginLink as its own **API** (a resource server, independent of any
+one app's identity) inside each connected workspace's organisation — done automatically by CrudAdmin when
+the workspace connects, and again whenever CrudApi's own identifier changes. Any app LoginLink has granted
+access to that API can then request a token **addressed to CrudApi itself** (LoginLink's `resource`
+parameter at `/token`), instead of needing to be the one specific app CrudAdmin already knows about. The
+data API accepts either shape: a token for the one connected app (unchanged), or a token for CrudApi's own
+identifier, resolved to the right workspace by which organisation it names.
+
+- **CrudApi's identifier** — what an app asks for with `resource=`. Configurable at
+  [Admin console → Settings → LoginLink server](../admin-console/settings.html#loginlink-server); defaults
+  sensibly to this host's own public address if never set explicitly. A calling app should read it from
+  `GET /api/tenant/loginlink/data` (field `apiIdentifier`) rather than hardcode it — changing the identifier
+  re-registers it everywhere already connected, and anything hardcoded would silently stop working.
+- **Allowed apps (optional)** — a workspace can restrict which specific apps may call this way, beyond
+  whatever LoginLink itself has granted. Unset (the default) means any app LoginLink granted the API.
+- **"Register again"** — if registration ever fails (a transient LoginLink error, a credential that expired
+  between attempts), retry it from [Tenant console → Access](../tenant-console/access.html) without
+  reconnecting LoginLink itself.
 
 ## Who connects it — platform vs. tenant control
 

@@ -14,6 +14,12 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **CrudApi as a registered API in LoginLink** (`WebSvc.CrudAdmin` 2.1.0–2.1.1): a tenant's own separate
+  app (not just the one app CrudAdmin itself registers) can now call the data API as its signed-in users —
+  LoginLink grants it access to CrudApi as an API (a resource server), and it requests a token addressed to
+  CrudApi directly rather than needing to be CrudAdmin's own trusted app. A workspace can now only ever
+  connect to its own LoginLink organisation — never the platform's top-level one, and never one another
+  workspace already uses. See [Features → LoginLink integration](../features/loginlink-integration.html#crudapi-as-a-registered-api).
 - **Admin console rewrite** (`WebSvc.CrudAdmin` 2.0.0): the separate Roles, Policies, Users, Provisioning
   Keys, Issuance Keys, JWT Sessions, Tenant Sessions and API Clients pages are replaced by a unified
   [Access model](../admin-console/access-model.html); a two-tier [Developer API](../admin-console/developer-api.html)
