@@ -126,6 +126,11 @@ and reliability implications of that dependency.
   [Admin Users](admins.html) page) — can never silently point at two different servers.
 - **CrudApi's own API identifier** — what an app (like a tenant's own separate product, calling the data
   API as its users) asks LoginLink for a token addressed to, instead of needing to be the one specific app
-  each workspace already trusts. Defaults sensibly to this host's own public address if left unset;
-  editable, and changing it re-registers the new value in every workspace already connected to LoginLink.
+  each workspace already trusts. Left blank, this defaults to the host's own configured public address
+  (`Public:BaseUrl`) — a fixed value, the same one CrudAdmin's own tokens use — shown on this page as
+  "In effect right now: …" so it's never a silent guess. If `Public:BaseUrl` *also* isn't set, the page
+  says so with a warning: without it, the identifier falls back to whatever address served each individual
+  request, which can differ behind a reverse proxy and cause correctly-addressed tokens to be refused
+  intermittently — set `Public:BaseUrl` for a stable value. Editable either way, and changing it
+  re-registers the new value in every workspace already connected to LoginLink.
   Full detail: [Features → LoginLink integration](../features/loginlink-integration.html#crudapi-as-a-registered-api).

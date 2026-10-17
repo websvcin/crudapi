@@ -86,15 +86,19 @@ data API accepts either shape: a token for the one connected app (unchanged), or
 identifier, resolved to the right workspace by which organisation it names.
 
 - **CrudApi's identifier** — what an app asks for with `resource=`. Configurable at
-  [Admin console → Settings → LoginLink server](../admin-console/settings.html#loginlink-server); defaults
-  sensibly to this host's own public address if never set explicitly. A calling app should read it from
-  `GET /api/tenant/loginlink/data` (field `apiIdentifier`) rather than hardcode it — changing the identifier
-  re-registers it everywhere already connected, and anything hardcoded would silently stop working.
+  [Admin console → Settings → LoginLink server](../admin-console/settings.html#loginlink-server); left
+  blank, it defaults to the host's own configured public address (`Public:BaseUrl`) — a fixed value, shown
+  on that page as the value actually in effect, rather than silently varying by request. A calling app
+  should read it from `GET /api/tenant/loginlink/data` (field `apiIdentifier`) rather than hardcode it —
+  changing the identifier re-registers it everywhere already connected, and anything hardcoded would
+  silently stop working.
 - **Allowed apps (optional)** — a workspace can restrict which specific apps may call this way, beyond
   whatever LoginLink itself has granted. Unset (the default) means any app LoginLink granted the API.
 - **"Register again"** — if registration ever fails (a transient LoginLink error, a credential that expired
   between attempts), retry it from [Tenant console → Access](../tenant-console/access.html) without
-  reconnecting LoginLink itself.
+  reconnecting LoginLink itself. A failed attempt no longer goes unnoticed: the Access page shows a banner
+  with the exact reason until a later attempt succeeds, and the same text comes back from
+  `GET /api/tenant/loginlink/data` (field `apiRegisterError`) for a calling app to show too.
 
 ## Who connects it — platform vs. tenant control
 

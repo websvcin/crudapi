@@ -14,6 +14,14 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **Registered-API identifier and registration-failure reporting fixed** (`WebSvc.CrudAdmin` 2.1.2): the
+  identifier CrudApi registers itself under in LoginLink now reliably matches the one it validates
+  against — it prefers the deployment's own `Public:BaseUrl`, rather than falling back to whichever
+  address served an individual request, which could differ behind a reverse proxy and refuse correctly
+  addressed tokens intermittently. A failed "register CrudApi as an API" attempt is also no longer silent:
+  the reason is kept and shown on the Tenant console's Access page (and in `GET /api/tenant/loginlink/data`'s
+  `apiRegisterError`) until a later attempt succeeds. See
+  [Features → LoginLink integration](../features/loginlink-integration.html#crudapi-as-a-registered-api).
 - **CrudApi as a registered API in LoginLink** (`WebSvc.CrudAdmin` 2.1.0–2.1.1): a tenant's own separate
   app (not just the one app CrudAdmin itself registers) can now call the data API as its signed-in users —
   LoginLink grants it access to CrudApi as an API (a resource server), and it requests a token addressed to
