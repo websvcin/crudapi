@@ -69,6 +69,24 @@ or [Settings](../tenant-console/settings.html) tab. Either path needs:
 2. A **management credential** — created in that organisation's own API Access page, with **Manage apps**
    ticked.
 
+## Who may sign in to a tenant's own console (point #2)
+
+Being authenticated by LoginLink and being let into *this workspace's* CrudAdmin console are two separate
+checks — a person who signs in successfully but isn't on the workspace's own **People list** (Tenant console →
+Access) is turned away with a plain message and recorded as a request, until someone already linked approves
+them. Three modes, chosen on the Access page under "Who may sign in":
+
+- **Only people I approve** (the default) — every new person waits for manual approval, no exceptions.
+- **Auto-approve LoginLink tenant admins** — anyone whose account is a `tenant_admin` in the connected LoginLink
+  organisation (LoginLink's own `user_kind` claim) is linked automatically on first sign-in; everyone else still
+  waits. Useful when the people who'd sign into CrudAdmin's console are already your LoginLink organisation's own
+  admins, who've already proven who they are at that level.
+- **Anyone in my LoginLink organisation** — no approval needed for anyone; the broadest option, and flagged as
+  such on the page itself.
+
+This is independent of point #3's own access rules for the **data API** (its own Strict/Balanced/Open choice,
+configured from [Tenant console → Keys](../tenant-console/keys.html)) — the two surfaces are governed separately.
+
 ## CrudApi as a registered API
 
 Point #3's original design had a real limit: the data API only ever trusted tokens addressed to **one**

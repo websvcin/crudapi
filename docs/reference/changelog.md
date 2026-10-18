@@ -14,6 +14,19 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **Auto-approve LoginLink tenant admins into the console** (`WebSvc.CrudAdmin`, pending release): a tenant's
+  own console previously turned away every new LoginLink sign-in until an already-linked person approved them
+  from Access → People — real friction for someone who'd already proven they're an admin of the same connected
+  LoginLink organisation. "Who may sign in" is now a 3-way choice: the existing strict (approve everyone) and
+  open (approve no one) modes, plus a new middle option that auto-approves any sign-in whose LoginLink account
+  is a `tenant_admin` in that organisation. See
+  [Features → LoginLink integration](../features/loginlink-integration.html#who-may-sign-in-to-a-tenants-own-console-point-2).
+- **Platform address becomes a Host Setting** (`WebSvc.CrudAdmin` 2.1.3): CrudAdmin's own public address —
+  behind its JWT issuer/audience and the LoginLink API identifier — no longer has to be set via the
+  `Public:BaseUrl` environment variable. It's now a live Host Setting (editable with no restart) also captured
+  during first-run setup; an existing deployment that already sets the env var needs no action, since the
+  setting simply takes precedence when present. See
+  [Admin console → Settings](../admin-console/settings.html#platform-address).
 - **Registered-API identifier and registration-failure reporting fixed** (`WebSvc.CrudAdmin` 2.1.2): the
   identifier CrudApi registers itself under in LoginLink now reliably matches the one it validates
   against — it prefers the deployment's own `Public:BaseUrl`, rather than falling back to whichever

@@ -64,6 +64,18 @@ setup completed, where CrudAdmin keeps its own data, whether automatic database 
 and how many admins exist — each with a link to where it can actually be changed (mostly
 [Storage & data](storage-databases.html)).
 
+### Platform address
+
+This deployment's own real public address — what CrudAdmin's own login tokens (issuer/audience) and the
+[LoginLink API identifier](#loginlink-server) below are named after. Takes effect immediately, with no grace
+period, unlike most settings here it needs no restart either way.
+
+Left blank, it falls back to the `Public:BaseUrl` environment variable if the host sets one — the only way to
+configure this before this field existed — or, if neither is set, to each request's own address, which the page
+flags with a warning since that can vary (behind a reverse proxy, for instance). Normally pre-filled once during
+the first-run [setup wizard](../deployment/setup-wizard.html), using the address the browser was actually at
+while setup ran.
+
 ### Provisioning account
 
 The credential CrudAdmin uses to create real databases on a tenant's behalf (see
