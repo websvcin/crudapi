@@ -14,8 +14,14 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
-- **The Users page shows a person's email, not just their raw subject id** (`WebSvc.CrudAdmin`, pending
-  release): a LoginLink-authenticated person with no display name set used to show only their opaque subject
+- **Generate Config was broken outright for a short window** after the no-restart fix below shipped: a
+  `DependencyInjectionException` ("No service for type 'AI.Providers.OpenAIProvider' has been registered")
+  on every call. A regression in that same fix — removing the only thing that fed the AI provider type into
+  app configuration at startup also broke a different package's own internal registration that depended on
+  it. Fixed by building the AI provider directly instead of through that indirection; pinned with a new
+  regression test so this exact failure mode can't silently return.
+- **The Users page shows a person's email, not just their raw subject id** (`WebSvc.CrudAdmin` 2.1.5): a
+  LoginLink-authenticated person with no display name set used to show only their opaque subject
   id forever — their email is already resolved on every LoginLink data-API call, it just never reached the
   record this page reads from. Threaded through the existing usage pipeline instead of a new lookup: an
   existing person's row is backfilled the next time they make a request, never overwriting a display name or
