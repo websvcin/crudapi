@@ -50,12 +50,8 @@ publishing, the AI provider that powers config generation, and the shared LoginL
 field has an inline guide (what it is, why it matters, how to fill it in, where to get the value) — click
 **Open all guides** to expand every one at once.
 
-{: .warning }
-> Most settings here apply immediately via the same live cache as Security Settings. **Notify, GitHub, and
-> AI settings are the exception — they need the app restarted to take effect.** Saving a new GitHub token,
-> for instance, updates what's stored, but the running process keeps using whatever token it loaded at
-> startup until it's restarted. This is the single most common cause of "I updated the token but it still
-> fails" reports — restart after changing any of these three groups.
+Every setting on this page applies immediately via the same live cache as Security Settings — GitHub, AI and
+Notify included. Nothing here needs a restart.
 
 ### Decided during setup
 
@@ -101,8 +97,9 @@ A **Test** action validates the credential live before saving; nothing is stored
 
 ### Notify
 
-- **Enabled** — turns outbound notifications on/off.
-- **Base URL** — the notification service's address, no trailing path. **Requires a restart.**
+- **Enabled** — turns outbound notifications on/off, checked live on every notification — toggling this
+  takes effect on the very next one, nothing in flight needs to finish first.
+- **Base URL** — the notification service's address, no trailing path. Read fresh on every notification sent.
 
 ### GitHub
 
@@ -111,21 +108,23 @@ A **Test** action validates the credential live before saving; nothing is stored
 - **Personal access token** — a GitHub PAT with push rights to that repo. Stored encrypted; never shown
   again after saving, only who last changed it and when.
 - **Config path prefix** — the folder prefix inside the repo configs are written under (default
-  `databases`).
+  `databases`). Read live by the generator itself; the separate Config Editor (WebSvc.ConfigVisualizer) still
+  reads its own copy once at startup, so changing this prefix without restarting can leave the two disagreeing
+  about where a config lives until the next restart — the one remaining case on this page that benefits from one.
 
-{: .warning }
-> **Requires a restart to take effect.** If a config push fails with `Unauthorized — Bad credentials`
-> right after saving a new token here, this is almost always why — restart the app, then retry. See the
-> diagnostic endpoint `GET /api/admin/diagnostics/config-snapshot`, which compares what's loaded into the
-> running process against what Host Settings holds live, to confirm which one is stale before you spend
-> time re-checking the token itself.
+All three GitHub fields are read fresh on every Generate Config / push — if a push ever fails with
+`Unauthorized — Bad credentials` right after saving a new token, the token itself is the thing to check, not
+a stale process. The diagnostic endpoint `GET /api/admin/diagnostics/config-snapshot` still exists, mainly to
+catch the rarer case of an `appsettings.json`/environment-variable override sitting outside Host Settings
+entirely.
 
 ### AI
 
-- **Provider** — OpenAI, Gemini, or AzureOpenAI.
-- **URL** — leave blank for the provider's normal address; for Azure OpenAI, your resource endpoint.
-- **Model** — e.g. `gpt-4o-mini`.
-- **API key** — stored encrypted, same as the GitHub token. **Requires a restart.**
+- **Provider** — OpenAI, Gemini, or AzureOpenAI. Read live, per Generate Config call.
+- **URL** — leave blank for the provider's normal address; for Azure OpenAI, your resource endpoint. Read live.
+- **Model** — e.g. `gpt-4o-mini`. Read live.
+- **API key** — stored encrypted, same as the GitHub token. Read live and passed per call — never cached
+  between requests.
 
 This is the model [Generate Config](../features/generate-config-dashboards.html) calls to produce table
 groupings, descriptions, and icons — see [Known limitations](../reference/known-issues.html) for the cost

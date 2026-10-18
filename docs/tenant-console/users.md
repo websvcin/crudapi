@@ -43,5 +43,10 @@ Search by name, email, or external id; filter by **All** / **Active** / **Disabl
 person, their request count, how many requests were turned away (denied), when they were last seen, their
 status, and row actions (disable/enable, remove).
 
+**Who a row shows as the person's name:** their display name if one's been set (via **Edit**), else their
+email if LoginLink has sent one on their token, else their raw subject id as a last resort — a LoginLink
+sign-in's email is picked up automatically the first time this workspace sees a request from them after it's
+known, with no action needed here.
+
 **+ Add user** registers someone ahead of their first sign-in — required if "Only people you add can
 connect" is on; optional otherwise, useful for pre-provisioning.

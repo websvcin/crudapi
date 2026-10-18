@@ -14,6 +14,21 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **The Users page shows a person's email, not just their raw subject id** (`WebSvc.CrudAdmin`, pending
+  release): a LoginLink-authenticated person with no display name set used to show only their opaque subject
+  id forever — their email is already resolved on every LoginLink data-API call, it just never reached the
+  record this page reads from. Threaded through the existing usage pipeline instead of a new lookup: an
+  existing person's row is backfilled the next time they make a request, never overwriting a display name or
+  email already set. See [Tenant console → Users](../tenant-console/users.html#the-users-table).
+- **GitHub, AI, and Notify Host Settings no longer require a restart:** these three groups used to be read
+  from CrudAdmin's database exactly once, at boot, into a frozen snapshot — changing a GitHub token, the AI
+  provider/model, or Notify's base URL silently kept using the old value until the process restarted. They're
+  now read fresh from Host Settings on every use, the same live behavior every other setting on this host
+  already had. Also fixed in the same pass: leaving the AI URL field blank previously fell back to a built-in
+  default that didn't match the request CrudApi actually sends, failing every Generate Config call outright —
+  it now defaults to the correct endpoint. The one remaining exception: the separate Config Editor
+  (WebSvc.ConfigVisualizer) still reads its own copy of the GitHub config-path-prefix once at startup. See
+  [Admin console → Settings](../admin-console/settings.html#host-settings).
 - **Auto-approve LoginLink tenant admins into the console** (`WebSvc.CrudAdmin`, pending release): a tenant's
   own console previously turned away every new LoginLink sign-in until an already-linked person approved them
   from Access → People — real friction for someone who'd already proven they're an admin of the same connected
