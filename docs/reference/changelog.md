@@ -14,6 +14,12 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **A config generated through the data API is now recorded the same way an admin-generated one is:**
+  generating a config via `GET .../database/generate-config` (the route a tenant's own app calls, not the
+  admin console's own button) pushed the file to GitHub correctly but never updated the database's own row —
+  so `config_file_url` stayed empty and a caller reading that row couldn't find the file it had just
+  published. Both paths now record the same way. No caller-side change needed; the field simply starts
+  showing up.
 - **Generate Config was broken outright for a short window** after the no-restart fix below shipped: a
   `DependencyInjectionException` ("No service for type 'AI.Providers.OpenAIProvider' has been registered")
   on every call. A regression in that same fix — removing the only thing that fed the AI provider type into
