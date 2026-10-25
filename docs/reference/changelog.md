@@ -14,6 +14,12 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **A LoginLink sign-in now gets its built-in role's permissions applied** (`WebSvc.CrudAdmin` 2.1.6): a person
+  signing in through LoginLink with a built-in role (Reader, Writer, Editor, Database admin) never actually got
+  that role's permissions — the lookup only ever matched a workspace's own custom roles, so every real data call
+  through a LoginLink-authenticated app failed with a permissions error. Resolved the same tested way the admin
+  console and key-assignment paths already do; a LoginLink token still never grants Owner. See
+  [Features → LoginLink integration](../features/loginlink-integration.html).
 - **A config generated through the data API is now recorded the same way an admin-generated one is:**
   generating a config via `GET .../database/generate-config` (the route a tenant's own app calls, not the
   admin console's own button) pushed the file to GitHub correctly but never updated the database's own row —
