@@ -14,6 +14,12 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **A workspace's own role now applies from a LoginLink sign-in regardless of the "own roles" setting**
+  (`WebSvc.CrudAdmin` 2.1.7): the fix just below (2.1.6) introduced a regression — a role created directly for a
+  tenant by a platform admin (bypassing tenant self-service) stopped being recognized from a LoginLink sign-in
+  for any workspace that hasn't explicitly turned "own roles" on, the default for a new workspace. That setting
+  governs *building* a role through tenant self-service; it never governed *using* one that already exists.
+  Fixed without touching tenant self-service role assignment, which is unaffected.
 - **A LoginLink sign-in now gets its built-in role's permissions applied** (`WebSvc.CrudAdmin` 2.1.6): a person
   signing in through LoginLink with a built-in role (Reader, Writer, Editor, Database admin) never actually got
   that role's permissions — the lookup only ever matched a workspace's own custom roles, so every real data call
