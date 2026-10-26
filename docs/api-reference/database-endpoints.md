@@ -65,6 +65,27 @@ generated and saved, but if the GitHub push fails (bad token, no network, not co
 HTTP status is **502**, with the body still showing the generated config plus the specific push error — so
 a caller never mistakes "generated but not published" for either a clean success or a total failure.
 
+### Generating when a config already exists — `ifExists`
+
+By default, generating **replaces** a config file that's already there, exactly as it always has — nothing
+changes for a caller that doesn't pass this parameter. Add `ifExists` to choose instead:
+
+- `ask` — if a file already exists, nothing is generated (no AI call, no push) and the response is **409**
+  `config_exists` with `path`, `fileUrl`, `tables` (from the existing file), `matchesDatabase`, `missingTables`,
+  and `newTables` — enough to show someone what's there before they decide.
+- `replace` — the default: generate and overwrite.
+- `use_existing` — generate nothing; record the existing file as this database's own, as if it had just been
+  generated. Refused with **409** `config_mismatch` (same fields) when the file names a table the database no
+  longer has.
+
+Check without generating at all with `GET /database/config-file` — same response shape, `{ "exists": false }`
+when there's nothing there yet.
+
+```bash
+curl -H "X-API-Key: drk_..." \
+  "https://your-host/api/v1/acme/reports/database/generate-config?ifExists=ask"
+```
+
 ## Load a starter bootstrap config — `POST /database/bootstrap-db/{database}`
 
 Reads `bootstrap-db/{database}.json` from the platform's connected GitHub repository and inserts every

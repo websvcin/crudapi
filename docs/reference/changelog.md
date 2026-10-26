@@ -14,6 +14,13 @@ Notable, user-facing milestones. For the complete commit-by-commit history, see 
 
 ## Recent
 
+- **Generating a dashboard config can now check before replacing one that's already there:** every generate
+  path (data API, tenant console, platform admin, and the Config Editor's own "Regenerate") used to overwrite
+  an existing file silently, re-running the metered AI call every time even when nothing needed to change. A
+  new `ifExists` parameter (`ask` | `replace` | `use_existing`) lets a caller check first — **the default stays
+  `replace`**, exactly today's behavior for every existing caller, so overwrite is never blocked, only ever
+  opt-in-protected. A new `config-file` lookup (data API and developer API) can check without ever generating.
+  See [API reference → Database & schema endpoints](../api-reference/database-endpoints.html#generating-when-a-config-already-exists-ifexists).
 - **A workspace's own role now applies from a LoginLink sign-in regardless of the "own roles" setting**
   (`WebSvc.CrudAdmin` 2.1.7): the fix just below (2.1.6) introduced a regression — a role created directly for a
   tenant by a platform admin (bypassing tenant self-service) stopped being recognized from a LoginLink sign-in

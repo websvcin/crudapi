@@ -34,7 +34,7 @@ Each row: name/key, engine and host, connection status, configuration status, an
 
 | Action | Does |
 |---|---|
-| **Generate Config** | Produces the dashboard configuration from the live schema — see [Features → Generate Config & dashboards](../features/generate-config-dashboards.html). Reports success, or "generated but not published" with the real reason if the GitHub push failed, never a silent either/or. |
+| **Generate Config** | Produces the dashboard configuration from the live schema — see [Features → Generate Config & dashboards](../features/generate-config-dashboards.html). Reports success, or "generated but not published" with the real reason if the GitHub push failed, never a silent either/or. Replaces a file already there by default, same as always; the [developer API's `ifExists` parameter](developer-api.html) can ask first instead, for a caller that wants to check before replacing. |
 | **Config Column** (buttons) | **Open editor** launches the [Config Visualizer](../features/generate-config-dashboards.html#the-config-visualizer) via a signed handoff; **Regenerate** re-runs Generate Config for this exact database. |
 | **Run a script** | Opens the script runner — see [Features → Run scripts](../features/run-scripts.html) for the full dry-run/confirm/execute flow, including the "execute here" credential picker. |
 | **Row policy** | Add or edit a row-level restriction for a role on this database — see [Features → Row policies](../features/row-policies.html). Can optionally be copied to every other database in the workspace whose tables/columns match. |

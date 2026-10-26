@@ -77,6 +77,8 @@ curl -X POST https://host/api/tenant/access/loginlink/request-connect \
 | `GET` | `/api/tenant/overview` | Overview |
 | `PUT` | `/api/tenant/settings` | Settings |
 | `POST` | `/api/tenant/databases` | Databases |
+| `POST` | `/api/tenant/databases/{id}/generate-config?ifExists=ask\|replace\|use_existing` | Databases |
+| `GET` | `/api/tenant/databases/{id}/config-file` | Databases |
 | `POST` | `/api/tenant/access/sessions/{id}/end` | Access |
 | `POST` | `/api/tenant/access/loginlink/request-connect` | LoginLink |
 | `POST` | `/api/tenant/roles` | Roles |
